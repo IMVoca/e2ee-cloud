@@ -1,0 +1,14 @@
+# Round 4 驗收：Claude 獨立執行 2026-11-17 20:39:05
+受保護檔案 diff: 0 個
+90 passed, 1 warning in 43.44s
+01_v1_normal.sim exit=0 通過=9 失敗=0
+02_v1_attacks.sim exit=0 通過=15 失敗=0
+03_v2_attacks.sim exit=0 通過=15 失敗=0
+04_wrong_password.sim exit=0 通過=5 失敗=0
+05_v2_rollback.sim exit=0 通過=8 失敗=0
+== 手動邊界：撇號、引號、大小寫指令
+sim(v1)> [成功] 已上傳 #1  f816e49d-c9ed-4b47-ac96-fdf5f4bc132b
+sim(v1)> [成功] it's Bob's "plan"
+sim(v1)> [EXPECT 通過] 預期包含 'Bob\'s "plan"'
+sim(v1)> [指令錯誤] 指令引號未閉合
+sim(v1)> 

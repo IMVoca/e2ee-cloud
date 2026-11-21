@@ -1,0 +1,4 @@
+# Round 1 驗收：Claude 獨立執行 2026-11-17 20:19:16
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+87 passed, 1 warning in 39.50s

@@ -1,0 +1,19 @@
+# 情境 01：V1 誠實伺服器下的正常操作（對應 T1）
+reset all
+login v1 "correct horse"
+upload hello.txt Hello, E2EE cloud!
+expect ok
+ls
+expect ok
+expect contains hello.txt
+cat hello.txt
+expect ok
+expect contains Hello, E2EE cloud!
+cat #1
+expect ok
+expect contains Hello, E2EE cloud!
+# 伺服器視角：V1 的檔名是明文
+server ls
+expect contains hello.txt
+server show #1
+expect contains ciphertext

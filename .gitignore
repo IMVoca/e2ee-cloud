@@ -5,3 +5,5 @@ __pycache__/
 venv/
 storage/
 *.mp4
+sim_storage/
+logs/

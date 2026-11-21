@@ -1,0 +1,7 @@
+# Round 3 驗收：Claude 獨立執行 2026-11-17 20:32:53
+1 failed, 89 passed, 1 warning in 45.95s
+01_v1_normal.sim exit=0 通過=9 失敗=0
+02_v1_attacks.sim exit=0 通過=15 失敗=0
+03_v2_attacks.sim exit=0 通過=15 失敗=0
+04_wrong_password.sim exit=0 通過=5 失敗=0
+05_v2_rollback.sim exit=0 通過=8 失敗=0

@@ -1,0 +1,36 @@
+# 情境 02：V1（AES-CBC、未認證）——三種惡意伺服器攻擊皆成功（對應 T3–T5）
+reset all
+login v1 pw-v1
+
+# --- 攻擊 1：竄改內容。已知明文 "0100" 位於第 0 區塊 index 10，XOR 差值寫進 IV
+upload transfer.txt Transfer $0100 to Alice. Approved by Bob.
+cat transfer.txt
+expect contains $0100
+attack tamper #1 10 0100 9100
+expect ok
+expect contains nonce_or_iv
+cat transfer.txt
+expect ok
+expect contains Transfer $9100 to Alice. Approved by Bob.
+
+# --- 攻擊 2：植入檔案。複製 report.pdf 的密文並換上偽造的明文檔名
+upload report.pdf real report
+attack inject confession.txt #2
+expect ok
+expect contains 新增記錄
+ls
+expect ok
+expect contains confession.txt
+cat confession.txt
+expect ok
+expect contains real report
+
+# --- 攻擊 3：對調檔名。開啟 a.txt 卻拿到 b.txt 的內容
+upload a.txt content of A
+upload b.txt content of B
+attack swap a.txt b.txt
+expect ok
+expect contains name
+cat a.txt
+expect ok
+expect contains content of B

@@ -1,0 +1,20 @@
+# 情境 05：V2 的已知限制——整套回滾（rollback）無法偵測（報告 Q5）
+reset all
+login v2 pw-v2
+upload contract.txt price = 100
+server snapshot before
+expect ok
+upload invoice.txt pay 5000 by Friday
+ls
+expect contains invoice.txt
+
+# 伺服器把 files/ 與 meta/ 整份換回快照：舊清單的 HMAC 仍然是使用者自己算的、有效的
+attack rollback before
+expect ok
+ls
+expect ok
+expect contains contract.txt
+expect not-contains invoice.txt
+cat contract.txt
+expect ok
+expect contains price = 100

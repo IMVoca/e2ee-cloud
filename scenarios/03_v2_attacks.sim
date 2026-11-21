@@ -1,0 +1,42 @@
+# 情境 03：V2（AES-GCM + AAD + HMAC 清單）——三種攻擊皆被偵測並拒絕（對應 T6–T8）
+
+# --- 攻擊 1：竄改內容。GCM 的 CTR 部分可被精準翻轉，但 tag 驗證失敗
+reset all
+login v2 pw-v2
+upload transfer.txt Transfer $0100 to Alice. Approved by Bob.
+attack tamper #1 10 0100 9100
+expect ok
+expect contains ciphertext
+cat transfer.txt
+expect rejected
+expect contains IntegrityError
+expect not-contains $9100
+
+# --- 攻擊 2：植入檔案。伺服器只能複製既有記錄，新 ID 不在 HMAC 清單內
+reset v2
+login v2 pw-v2
+upload report.pdf real report
+attack inject confession.txt #1
+expect ok
+ls
+expect rejected
+expect contains IntegrityError
+cat #2
+expect rejected
+# 未被動過的原檔仍可用 ID 正常下載：偵測是精準的，不是整個壞掉
+cat #1
+expect ok
+expect contains real report
+
+# --- 攻擊 3：對調檔名。(file_id, 加密檔名) 配對與清單不符
+reset v2
+login v2 pw-v2
+upload a.txt content of A
+upload b.txt content of B
+attack swap #1 #2
+expect ok
+ls
+expect rejected
+cat #1
+expect rejected
+expect not-contains content of B
